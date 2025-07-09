@@ -13,5 +13,5 @@ exec 1>&2
 
 touch smarthost.env
 
-systemctl --user enable output.service
-systemctl --user restart output.service
+systemctl --user enable dokploy.service
+systemctl --user restart dokploy.service
