@@ -25,3 +25,7 @@ postgres = {
  "POSTGRES_DB" : POSTGRES_DB ,
 } 
 agent.write_envfile("postgres.env", postgres) 
+ 
+redis = { 
+} 
+agent.write_envfile("redis.env", redis) 
