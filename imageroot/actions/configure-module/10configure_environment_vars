@@ -13,23 +13,11 @@ import agent
 # If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
 
-#This is specific to you module, so you need to change it accordingly.
-#agent.dump_env()
-POSTGRES_PASSWORD = data.get("POSTGRES_PASSWORD", "password") 
-POSTGRES_USER = data.get("POSTGRES_USER", "dokploy") 
-POSTGRES_DB = data.get("POSTGRES_DB", "dokploy") 
- 
-postgres = { 
- "POSTGRES_PASSWORD" : POSTGRES_PASSWORD ,
- "POSTGRES_USER" : POSTGRES_USER ,
- "POSTGRES_DB" : POSTGRES_DB ,
-} 
-agent.write_envfile("postgres.env", postgres) 
- 
-redis = { 
-} 
-agent.write_envfile("redis.env", redis) 
- 
-dokploy = { 
-} 
-agent.write_envfile("dokploy.env", dokploy) 
+# This is specific to you module, so you need to change it accordingly.
+# agent.dump_env()
+
+redis = {}
+agent.write_envfile("redis.env", redis)
+
+dokploy = {}
+agent.write_envfile("dokploy.env", dokploy)

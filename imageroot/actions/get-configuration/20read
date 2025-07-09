@@ -18,26 +18,26 @@ import agent
 config = {}
 
 # Read current configuration from the environment file
-config["host"] = os.getenv("TRAEFIK_HOST","")
+config["host"] = os.getenv("TRAEFIK_HOST", "")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 
 # Dump the configuration to stdout
 # json.dump(config, fp=sys.stdout)
-if os.path.exists("postgres.env"): 
-	data = agent.read_envfile("postgres.env") 
-	config["POSTGRES_USER"] = data.get("POSTGRES_USER", "dokploy") 
-	config["POSTGRES_DB"] = data.get("POSTGRES_DB", "dokploy") 
-	config["POSTGRES_PASSWORD"] = data.get("POSTGRES_PASSWORD", "password") 
-else: 
-	config["POSTGRES_USER"] = "dokploy" 
-	config["POSTGRES_DB"] = "dokploy" 
-	config["POSTGRES_PASSWORD"] = "password" 
- 
-if os.path.exists("redis.env"): 
-	data = agent.read_envfile("redis.env") 
- 
-if os.path.exists("dokploy.env"): 
-	data = agent.read_envfile("dokploy.env") 
- 
+if os.path.exists("postgres.env"):
+    data = agent.read_envfile("postgres.env")
+    config["POSTGRES_USER"] = data.get("POSTGRES_USER", "dokploy")
+    config["POSTGRES_DB"] = data.get("POSTGRES_DB", "dokploy")
+    config["POSTGRES_PASSWORD"] = data.get("POSTGRES_PASSWORD", "password")
+else:
+    config["POSTGRES_USER"] = "dokploy"
+    config["POSTGRES_DB"] = "dokploy"
+    config["POSTGRES_PASSWORD"] = "password"
+
+if os.path.exists("redis.env"):
+    data = agent.read_envfile("redis.env")
+
+if os.path.exists("dokploy.env"):
+    data = agent.read_envfile("dokploy.env")
+
 json.dump(config, fp=sys.stdout)
