@@ -1,0 +1,30 @@
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+#
+# This systemd unit starts a cool instance using Podman.
+# Most parts of this file come from podman-generate-systemd.
+#
+
+[Unit]
+Description=Podman cool.service
+Requires=coolify-app.service -app.service -app.service coolify-realtime-app.service 
+Before=coolify-app.service -app.service -app.service coolify-realtime-app.service 
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=-%S/state/environment
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/cool.pid %t/cool.pod-id
+ExecStartPre=/usr/bin/podman pod create --infra-conmon-pidfile %t/cool.pid  --pod-id-file %t/cool.pod-id  --name cool  --publish 127.0.0.1:${TCP_PORT}:80  --replace
+ExecStart=/usr/bin/podman pod start --pod-id-file %t/cool.pod-id
+ExecStop=/usr/bin/podman pod stop --ignore --pod-id-file %t/cool.pod-id -t 10
+ExecStopPost=/usr/bin/podman pod rm --ignore -f --pod-id-file %t/cool.pod-id
+PIDFile=%t/cool.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
