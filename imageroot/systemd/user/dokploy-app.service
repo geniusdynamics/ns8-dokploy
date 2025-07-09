@@ -5,8 +5,8 @@
 
 [Unit]
 Description=Podman  dokploy-app.service
-BindsTo=dokploy.service
-After=dokploy.service
+BindsTo=output.service
+After=output.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -18,7 +18,7 @@ TimeoutStopSec=70
 ExecStartPre=/bin/mkdir -p tmp
 ExecStartPre=/bin/rm -f %t/dokploy-app.pid %t/dokploy-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/dokploy-app.pid  --cidfile %t/dokploy-app.ctr-id --cgroups=no-conmon  --pod-id-file %t/dokploy.pod-id --replace -d --name  dokploy-app  --volume run-dockersock:/var/run/docker.sock:Z --volume etc-dokploy:/etc/dockploy:Z   --env-file dokploy.env  ${DOKPLOY_IMAGE}  
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/dokploy-app.pid  --cidfile %t/dokploy-app.ctr-id --cgroups=no-conmon  --pod-id-file %t/output.pod-id --replace -d --name  dokploy-app  --volume run-dockersock:/var/run/docker.sock:Z --volume etc-dokploy:/etc/dockploy:Z   --env-file dokploy.env  ${DOKPLOY_IMAGE}  
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/dokploy-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP dokploy-app
 SyslogIdentifier=%u
