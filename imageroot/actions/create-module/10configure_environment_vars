@@ -33,7 +33,12 @@ postgres = {
     "POSTGRES_USER": POSTGRES_USER,
     "POSTGRES_DB": POSTGRES_DB,
 }
+DATABASE_URL = (
+    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres-app:5432/{POSTGRES_DB}"
+)
 agent.write_envfile("postgres.env", postgres)
+
+agent.write_envfile("app-db.env", {"DATABASE_URL": DATABASE_URL})
 
 # just before starting systemd unit
 # agent.dump_env()
