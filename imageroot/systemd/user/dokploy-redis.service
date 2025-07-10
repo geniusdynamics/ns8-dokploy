@@ -1,0 +1,30 @@
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman  dokploy-redis.service
+BindsTo=dokploy.service
+After=dokploy.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+EnvironmentFile=-%S/state/smarthost.env
+WorkingDirectory=%S/state
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/mkdir -p tmp
+ExecStartPre=/bin/rm -f %t/dokploy-redis.pid %t/dokploy-redis.ctr-id
+ExecStartPre=-runagent discover-smarthost
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/dokploy-redis.pid  --cidfile %t/dokploy-redis.ctr-id --cgroups=no-conmon  --pod-id-file %t/dokploy.pod-id --replace -d --name  dokploy-redis  --volume redis-data:/data:Z   --env-file redis.env  ${REDIS_IMAGE}  
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/dokploy-redis.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP dokploy-redis
+SyslogIdentifier=%u
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/dokploy-redis.ctr-id
+PIDFile=%t/dokploy-redis.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
