@@ -24,7 +24,7 @@ def generate_random_password(length):
     return password[:length]
 
 
-POSTGRES_PASSWORD = generate_random_password(16)
+POSTGRES_PASSWORD = "amukds4wi9001583845717ad2"
 POSTGRES_USER = data.get("POSTGRES_USER", "dokploy")
 POSTGRES_DB = data.get("POSTGRES_DB", "dokploy")
 
@@ -33,9 +33,7 @@ postgres = {
     "POSTGRES_USER": POSTGRES_USER,
     "POSTGRES_DB": POSTGRES_DB,
 }
-DATABASE_URL = (
-    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres-app:5432/{POSTGRES_DB}"
-)
+DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@dokploy-postgres:5432/{POSTGRES_DB}"
 agent.write_envfile("postgres.env", postgres)
 
 agent.write_envfile("app-db.env", {"DATABASE_URL": DATABASE_URL})

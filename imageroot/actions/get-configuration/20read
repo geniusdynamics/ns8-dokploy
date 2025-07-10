@@ -32,7 +32,7 @@ if os.path.exists("postgres.env"):
 else:
     config["POSTGRES_USER"] = "dokploy"
     config["POSTGRES_DB"] = "dokploy"
-    config["POSTGRES_PASSWORD"] = "password"
+    config["POSTGRES_PASSWORD"] = "amukds4wi9001583845717ad2"
 
 if os.path.exists("redis.env"):
     data = agent.read_envfile("redis.env")

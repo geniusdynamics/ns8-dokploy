@@ -10,8 +10,8 @@
 
 [Unit]
 Description=Podman dokploy.service
-Requires=redis-app.service dokploy-app.service postgres-app.service 
-Before=redis-app.service dokploy-app.service postgres-app.service 
+Requires=redis-app.service dokploy-app.service dokploy-postgres.service 
+Before=redis-app.service dokploy-app.service dokploy-postgres.service 
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
