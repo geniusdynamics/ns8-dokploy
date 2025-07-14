@@ -11,4 +11,4 @@ if ! systemctl --user -q is-active dokploy.service; then
 	exit 0
 fi
 
-podman exec postgres-app pg_dump -U dokploy --format=c dokploy >dokploy.pg_dump
+podman exec dokploy-postgres pg_dump -U dokploy --format=c dokploy >dokploy.pg_dump

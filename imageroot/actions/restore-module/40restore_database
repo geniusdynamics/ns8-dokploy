@@ -9,16 +9,13 @@ set -e -o pipefail
 exec 1>&2 # Redirect any output to the journal (stderr)
 
 # Prepare an initialization script that restores the dump file
-mkdir -vp initdb.d
-mv -v dokploy.sql initdb.d
-#do the bash file to restore and exit once done
-cat - >initdb.d/zz_dokploy_restore.sh <<'EOS'
-# Print additional information:
-mysql --version
-# The script is sourced, override entrypoint args and exit:
-set -- true
+mkdir -vp restore
+cat - >restore/dokploy_restore.sh <<'EOS'
+# Read dump file from standard input:
+pg_restore --no-owner --no-privileges -U dokploy -d dokploy
+ec=$?
 docker_temp_server_stop
-exit 0
+exit $ec
 EOS
 
 # once we exit we remove initdb.d
