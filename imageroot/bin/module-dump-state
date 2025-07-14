@@ -7,15 +7,8 @@
 
 set -e
 
-if ! systemctl --user -q is-active output.service; then
+if ! systemctl --user -q is-active dokploy.service; then
 	exit 0
 fi
 
-podman exec mariadb-app mysqldump \
-	--databases output \
-	--default-character-set=utf8mb4 \
-	--skip-dump-date \
-	--ignore-table=mysql.event \
-	--single-transaction \
-	--quick \
-	--add-drop-table >output.sql
+podman exec postgres-app pg_dump -U dokploy --format=c dokploy >dokploy.pg_dump

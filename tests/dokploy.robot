@@ -2,24 +2,24 @@
 Library    SSHLibrary
 
 *** Test Cases ***
-Check if output is installed correctly
-    ${output}  ${rc} =    Execute Command    add-module ${IMAGE_URL} 1
+Check if dokploy is installed correctly
+    ${dokploy}  ${rc} =    Execute Command    add-module ${IMAGE_URL} 1
     ...    return_rc=True
     Should Be Equal As Integers    ${rc}  0
-    &{output} =    Evaluate    ${output}
-    Set Suite Variable    ${module_id}    ${output.module_id}
+    &{dokploy} =    Evaluate    ${dokploy}
+    Set Suite Variable    ${module_id}    ${dokploy.module_id}
 
-Check if output can be configured
+Check if dokploy can be configured
     ${rc} =    Execute Command    api-cli run module/${module_id}/configure-module --data '{}'
     ...    return_rc=True  return_stdout=False
     Should Be Equal As Integers    ${rc}  0
 
-Check if output works as expected
-    ${rc} =    Execute Command    curl -f http://127.0.0.1/output/
+Check if dokploy works as expected
+    ${rc} =    Execute Command    curl -f http://127.0.0.1/dokploy/
     ...    return_rc=True  return_stdout=False
     Should Be Equal As Integers    ${rc}  0
 
-Check if output is removed correctly
+Check if dokploy is removed correctly
     ${rc} =    Execute Command    remove-module --no-preserve ${module_id}
     ...    return_rc=True  return_stdout=False
     Should Be Equal As Integers    ${rc}  0

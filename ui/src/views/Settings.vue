@@ -25,7 +25,7 @@
           <cv-form @submit.prevent="configureModule">
             <cv-text-input
               :label="$t('settings.output_fqdn')"
-              placeholder="output.example.org"
+              placeholder="dokploy.example.org"
               v-model.trim="host"
               class="mg-bottom"
               :invalid-message="$t(error.host)"
