@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="dokploy"
-dokploy_version="v0.25.5"
+dokploy_version="v0.26.7"
 
 # Create a new empty container image
 container=$(buildah from scratch)
