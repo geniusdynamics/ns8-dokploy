@@ -1,9 +1,13 @@
 {
   "name": "output",
   "description": {
-    "en": "My output module"
+    "en": "Dokploy is a self-hosted platform to deploy and manage applications and databases with Docker.",
+    "it": "Dokploy è una piattaforma self-hosted per distribuire e gestire applicazioni e database con Docker."
   },
-  "categories": [],
+  "categories": [
+    "development",
+    "system_administration"
+  ],
   "authors": [
     {
       "name": "Name Surname",

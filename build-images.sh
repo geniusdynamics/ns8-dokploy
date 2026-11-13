@@ -17,7 +17,8 @@ reponame="dokploy"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
-dokploy_version="v0.27.1"
+# renovate: datasource=docker packageName=docker.io/dokploy/dokploy
+dokploy_version=v0.31.2
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -50,6 +51,7 @@ buildah config --entrypoint=/ \
 	--label="org.nethserver.authorizations=traefik@node:routeadm" \
 	--label="org.nethserver.tcp-ports-demand=1" \
 	--label="org.nethserver.rootfull=0" \
+    --label="org.nethserver.min-core=3.0.0" \
 	--label="org.nethserver.images=docker.io/postgres:16.16 docker.io/redis:7.4.12 docker.io/dokploy/dokploy:${dokploy_version}" \
 	"${container}"
 # Commit the image
