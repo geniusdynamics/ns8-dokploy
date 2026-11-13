@@ -51,6 +51,7 @@ buildah config --entrypoint=/ \
 	--label="org.nethserver.authorizations=traefik@node:routeadm" \
 	--label="org.nethserver.tcp-ports-demand=1" \
 	--label="org.nethserver.rootfull=0" \
+    --label="org.nethserver.min-core=3.0.0" \
 	--label="org.nethserver.images=docker.io/postgres:16.16 docker.io/redis:7.4.12 docker.io/dokploy/dokploy:${dokploy_version}" \
 	"${container}"
 # Commit the image
