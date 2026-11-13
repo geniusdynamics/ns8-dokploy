@@ -14,6 +14,9 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="dokploy"
+# Node.js 25+ no longer ships Corepack, install it from npm
+# renovate: datasource=npm packageName=corepack
+corepack_version=0.36.0
 dokploy_version="v0.27.1"
 
 # Create a new empty container image
@@ -22,7 +25,8 @@ container=$(buildah from scratch)
 # Reuse existing nodebuilder-output container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-output; then
 	echo "Pulling NodeJS runtime..."
-	buildah from --name nodebuilder-output -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+	buildah from --name nodebuilder-output -v "${PWD}:/usr/src:Z" docker.io/library/node:26.13.0-slim
+	buildah run nodebuilder-output sh -c "npm install -g corepack@${corepack_version} && corepack enable"
 fi
 
 echo "Build static UI files with node..."
@@ -46,7 +50,7 @@ buildah config --entrypoint=/ \
 	--label="org.nethserver.authorizations=traefik@node:routeadm" \
 	--label="org.nethserver.tcp-ports-demand=1" \
 	--label="org.nethserver.rootfull=0" \
-	--label="org.nethserver.images=docker.io/postgres:16 docker.io/redis:7 docker.io/dokploy/dokploy:${dokploy_version}" \
+	--label="org.nethserver.images=docker.io/postgres:16.16 docker.io/redis:7.4.12 docker.io/dokploy/dokploy:${dokploy_version}" \
 	"${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
