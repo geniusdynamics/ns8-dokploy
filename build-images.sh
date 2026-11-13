@@ -17,7 +17,8 @@ reponame="dokploy"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
-dokploy_version="v0.31.2"
+# renovate: datasource=docker packageName=docker.io/dokploy/dokploy
+dokploy_version=v0.31.2
 
 # Create a new empty container image
 container=$(buildah from scratch)
